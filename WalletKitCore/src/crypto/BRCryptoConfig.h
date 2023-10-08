@@ -36,7 +36,7 @@
 
 #define NETWORK_NAME    "Bitcoin"
 DEFINE_NETWORK (btcMainnet,  "bitcoin-mainnet", NETWORK_NAME, "mainnet", true, 668821, 6)
-DEFINE_NETWORK_FEE_ESTIMATE ("bitcoin-mainnet", "18", "10m", 10 * 60 * 1000)
+DEFINE_NETWORK_FEE_ESTIMATE ("bitcoin-mainnet", "18", "5m", 5 * 60 * 1000)
 DEFINE_CURRENCY ("bitcoin-mainnet",     "bitcoin-mainnet:__native__",   NETWORK_NAME,  CRYPTO_NETWORK_CURRENCY_BTC,  "native",   NULL,   true)
     DEFINE_UNIT ("bitcoin-mainnet:__native__",      "Satoshi",    "sat",      0,      "SAT")
     DEFINE_UNIT ("bitcoin-mainnet:__native__",      NETWORK_NAME, "btc",      8,      "₿")
