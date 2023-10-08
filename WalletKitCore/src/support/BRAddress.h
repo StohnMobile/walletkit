@@ -35,14 +35,14 @@ extern "C" {
 #endif
 
 // bitcoin address prefixes
-#define BITCOIN_PUBKEY_PREFIX       0
-#define BITCOIN_SCRIPT_PREFIX       5
+#define BITCOIN_PUBKEY_PREFIX       64
+#define BITCOIN_SCRIPT_PREFIX       63
 #define BITCOIN_PUBKEY_PREFIX_TEST  111
 #define BITCOIN_SCRIPT_PREFIX_TEST  196
-#define BITCOIN_PRIVKEY_PREFIX      128
+#define BITCOIN_PRIVKEY_PREFIX      191
 #define BITCOIN_PRIVKEY_PREFIX_TEST 239
-#define BITCOIN_BECH32_PREFIX       "bc"
-#define BITCOIN_BECH32_PREFIX_TEST  "tb"
+#define BITCOIN_BECH32_PREFIX       "soh"
+#define BITCOIN_BECH32_PREFIX_TEST  "tsoh"
 
 // bitcoin script opcodes: https://en.bitcoin.it/wiki/Script#Constants
 #define OP_0           0x00
