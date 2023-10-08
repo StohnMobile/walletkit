@@ -32,8 +32,8 @@
 #include <string.h>
 #include <assert.h>
 
-#define MAX_PROOF_OF_WORK 0x1d00ffff    // highest value for difficulty target (higher values are less difficult)
-#define TARGET_TIMESPAN   (14*24*60*60) // the targeted timespan between difficulty target adjustments
+#define MAX_PROOF_OF_WORK 0x1e0ffff0    // highest value for difficulty target (higher values are less difficult)
+#define TARGET_TIMESPAN   (10*60) // the targeted timespan between difficulty target adjustments
 
 inline static int _ceil_log2(int x)
 {
@@ -138,6 +138,7 @@ BRMerkleBlock *BRMerkleBlockParse(const uint8_t *buf, size_t bufLen)
         }
         
         BRSHA256_2(&block->blockHash, buf, 80);
+        BRScrypt(&block->powHash, sizeof(block->powHash), buf, 80, buf, 80, 1024, 1, 1);
 
         if (off > bufLen) {
             BRMerkleBlockFree(block);
@@ -288,17 +289,17 @@ int BRMerkleBlockIsValid(const BRMerkleBlock *block, uint32_t currentTime)
     if (block->totalTx > 0 && ! UInt256Eq(merkleRoot, block->merkleRoot)) r = 0;
     
     // check if timestamp is too far in future
-    if (block->timestamp > currentTime + BLOCK_MAX_TIME_DRIFT) r = 0;
+   if (block->timestamp > currentTime + BLOCK_MAX_TIME_DRIFT) r = 0;
     
     // check if proof-of-work target is out of range
-    if (target == 0 || (block->target & 0x00800000) || block->target > MAX_PROOF_OF_WORK) r = 0;
+   if (target == 0 || (block->target & 0x00800000) || block->target > MAX_PROOF_OF_WORK) r = 0;
     
     if (size > 3) UInt32SetLE(&t.u8[size - 3], target);
     else UInt32SetLE(t.u8, target >> (3 - size)*8);
     
     for (int i = sizeof(t) - 1; r && i >= 0; i--) { // check proof-of-work
-        if (block->blockHash.u8[i] < t.u8[i]) break;
-        if (block->blockHash.u8[i] > t.u8[i]) r = 0;
+        if (block->powHash.u8[i] < t.u8[i]) break;
+        if (block->powHash.u8[i] > t.u8[i]) r = 0;
     }
     
     return r;
